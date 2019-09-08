@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* MainClass
+web: java -jar out/artifacts/UNITO_INFO_bot_jar/UNITO_INFO_bot.jar
