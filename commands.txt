@@ -1,0 +1,5 @@
+setdip - Seleziona il tuo Dipartimento
+setcourse - Seleziona il tuo Corso di Laurea
+find - Trova tutti gli appelli di una materia
+alpha - Fornisci consigli o chiedi supporto a uno sviluppatore
+help - Guida all'utilizzo
