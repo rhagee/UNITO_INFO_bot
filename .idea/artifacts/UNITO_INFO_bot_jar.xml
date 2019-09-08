@@ -2,6 +2,9 @@
   <artifact type="jar" name="UNITO_INFO_bot:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/UNITO_INFO_bot_jar</output-path>
     <root id="archive" name="UNITO_INFO_bot.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/UNITO_INFO_bot_jar/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="UNITO_INFO_bot" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/commons-codec/commons-codec/1.11/commons-codec-1.11.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.9.9/jackson-module-jaxb-annotations-2.9.9.jar" path-in-jar="/" />
@@ -57,9 +60,6 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/j2objc/j2objc-annotations/1.3/j2objc-annotations-1.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/glassfish/grizzly/grizzly-http/2.4.4/grizzly-http-2.4.4.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/jakarta/xml/bind/jakarta.xml.bind-api/2.3.2/jakarta.xml.bind-api-2.3.2.jar" path-in-jar="/" />
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/UNITO_INFO_bot_jar/META-INF/MANIFEST.MF" />
-      </element>
     </root>
   </artifact>
 </component>
