@@ -1,1 +1,1 @@
-web: java -cp target/classes/:target/dependency/* MainClass.Class
+web: java -cp target/classes/MainClass
