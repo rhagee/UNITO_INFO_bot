@@ -9,6 +9,6 @@
         <module name="UNITO_INFO_bot" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="9" />
+    <bytecodeTargetLevel target="8" />
   </component>
 </project>
