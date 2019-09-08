@@ -108,10 +108,8 @@ public class UnitoBot extends TelegramLongPollingBot
                 }
                 else if(oldMessage.getText().equals("/alpha")) //Aggiornamento file ALPHA.txt
                 {
-                    InputStream in = getClass().getResourceAsStream("/alpha.txt");
-                    OutputStream out = new FileOutputStream("/newalpha.txt");
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //Reader File Chat
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out)); //Writer File Chat
+                    BufferedReader reader = new BufferedReader(new FileReader("alpha.txt")); //Reader File Chat
+                    BufferedWriter writer = new BufferedWriter(new FileWriter("newalpha.txt")); //Writer File Chat
 
                     String line=null;
                     String tobe="";
@@ -153,10 +151,8 @@ public class UnitoBot extends TelegramLongPollingBot
     private void StoreDip(Chat currentchat,String data) throws Exception
     {
         //Reader e Writer
-        InputStream in = getClass().getResourceAsStream("/Chat.txt");
-        OutputStream out = new FileOutputStream("/newChat.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out)); //Writer File Chat
+        BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
+        BufferedWriter writer = new BufferedWriter(new FileWriter("newChat.txt")); //Writer File Chat
 
         //String e boolean di appoggio
         String line = null;
@@ -206,10 +202,8 @@ public class UnitoBot extends TelegramLongPollingBot
     //STORE COURSE IN CHAT.txt
     private void StoreCourse(Chat currentchat,String data) throws Exception {
         //Scrittura
-        InputStream in = getClass().getResourceAsStream("/Chat.txt");
-        OutputStream out = new FileOutputStream("/newChat.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out)); //Writer File Chat
+        BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
+        BufferedWriter writer = new BufferedWriter(new FileWriter("newChat.txt")); //Writer File Chat
         //Variabili di appoggio
         String line = null;
         String newText = "";
@@ -292,8 +286,7 @@ public class UnitoBot extends TelegramLongPollingBot
     {
         //corso inizia = null
         String course=null;
-        InputStream in = getClass().getResourceAsStream("/Chat.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //Reader File UNITO
+        BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File UNITO
         String line = null;
         boolean find=false;
         //Cerco fino a quando non lo trovo o termino il file
@@ -339,8 +332,7 @@ public class UnitoBot extends TelegramLongPollingBot
 
     // MENU CREATE
     public List<InlineKeyboardButton> InlineMenu(Update update,String MenuType) throws Exception {
-        InputStream in = getClass().getResourceAsStream("/UNITO.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in)); //Reader File UNITO
+        BufferedReader reader = new BufferedReader(new FileReader("UNITO.txt")); //Reader File UNITO
         SendMessage error = new SendMessage();
         List<Option> GetMenu = new ArrayList();
         String ChatId = Long.toString(update.getMessage().getChatId());
@@ -532,8 +524,7 @@ public class UnitoBot extends TelegramLongPollingBot
     private void PrintTab(Chat currentchat,String data) throws Exception {
         String dip = null;
         String course = null;
-        InputStream in = getClass().getResourceAsStream("/Chat.txt");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        BufferedReader reader = new BufferedReader(new FileReader("Chat.txt"));
         String line = null;
         while ((line = reader.readLine()) != null) {
             if (line.contains(Long.toString(currentchat.getId()))) {
