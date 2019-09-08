@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 
-public class MainClass {
+public class MainClass { //Test
     public static void main(String[] args)
     {
         ApiContextInitializer.init();
