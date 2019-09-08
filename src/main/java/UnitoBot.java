@@ -42,7 +42,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 {
                     StoreDip(currentchat,data);
                     SendMessage dipmessage = new SendMessage();
-                    dipmessage.setText("Il tuo <b>Dipartimento</b> è stato memorizzato correttamente, prosegui inserendo il tuo Corso di Laurea attraverso il comando <i>/setcourse</i> ! \n PS.Ricordati che puoi cambiare il dipartimento in ogni momento, riutilizzando il comando <i>/setdip</i>.");
+                    dipmessage.setText("Il tuo <b>Dipartimento</b> e' stato memorizzato correttamente, prosegui inserendo il tuo Corso di Laurea attraverso il comando <i>/setcourse</i> ! \n PS.Ricordati che puoi cambiare il dipartimento in ogni momento, riutilizzando il comando <i>/setdip</i>.");
                     dipmessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
                     dipmessage.setParseMode("html");
                     execute(dipmessage);
@@ -51,12 +51,12 @@ public class UnitoBot extends TelegramLongPollingBot
                 {
                     StoreCourse(currentchat,data);
                     SendMessage courseMessage = new SendMessage();
-                    courseMessage.setText("Il tuo <b>Corso di Laurea</b> è stato memorizzato correttamente, quando vorrai potrai utilizzare il comando <i>/find</i> per trovare la materia di cui vuoi conoscere i prossimi appelli! \n PS.Ricordati che puoi cambiare il corso di laurea in ogni momento, riutilizzando il comando <i>/setcourse</i>.");
+                    courseMessage.setText("Il tuo <b>Corso di Laurea</b> e' stato memorizzato correttamente, quando vorrai potrai utilizzare il comando <i>/find</i> per trovare la materia di cui vuoi conoscere i prossimi appelli! \n PS.Ricordati che puoi cambiare il corso di laurea in ogni momento, riutilizzando il comando <i>/setcourse</i>.");
                     courseMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
                     courseMessage.setParseMode("html");
                     execute(courseMessage);
                 }
-                else if(type.contains("attività"))
+                else if(type.contains("attivita'"))
                 {
 
                     PrintTab(currentchat,data);
@@ -69,7 +69,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 //Switch case del tipo di comando
                 if(command.equals("/start"))
                 {
-                    message.setText("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verrò implementato nel tempo sopratutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
+                    message.setText("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verro' implementato nel tempo sopratutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
                     message.setChatId(update.getMessage().getChatId());
                     execute(message);
                 }
@@ -97,11 +97,11 @@ public class UnitoBot extends TelegramLongPollingBot
                 }
                 else if("/help".equals(command))
                 {
-                    message.setText("Bene ti spiegherò velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI ri inserirlo ogni volta perchè lo terrò in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
-                            "\n /setcourse : Attraverso questo comando visualizzerai la lsita di tutti i corsi disponibili, una volta scelto uno, lo terrò in memoria, così non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
-                            "\n /find : Attraverso questo comando potrai scegliere l'attività di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
+                    message.setText("Bene ti spieghero' velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI ri inserirlo ogni volta perche' lo terro' in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
+                            "\n /setcourse : Attraverso questo comando visualizzerai la lsita di tutti i corsi disponibili, una volta scelto uno, lo terro' in memoria, cosi' non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
+                            "\n /find : Attraverso questo comando potrai scegliere l'attivita' di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
                             "\n /alpha : Attraverso questo comando potrai inviare un messaggio agli sviluppatori, potrai scrivere riguardo un problema riscontrato, o dare consigli per lo sviluppo di una mia prossima versione!" +
-                            "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verrà CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
+                            "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verra' CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
                             "\n\n\n SPERO ORA SIA TUTTO PIU CHIARO! Attendo un Comando!");
                     message.setChatId(update.getMessage().getChatId());
                     execute(message);
@@ -167,13 +167,13 @@ public class UnitoBot extends TelegramLongPollingBot
                 newText=newText+line+"\n";
                 if(chat[1].equals(Long.toString(currentchat.getId())))
                 {
-                    line=reader.readLine(); //Prossima linea è DIP
+                    line=reader.readLine(); //Prossima linea e' DIP
                     newText=newText+"Dip:"+data+":\n"; //La sostituisco con questa
                     find = true; //Ho trovato DIP
-                   line=reader.readLine(); //Controllo anche la prossima linea che può essere Corso
+                   line=reader.readLine(); //Controllo anche la prossima linea che puo' essere Corso
                    if(line==null || !(line.contains("course")) )
                    {
-                       newText=newText+line+"\n"; //Se non è un corso allora la trascrivo
+                       newText=newText+line+"\n"; //Se non e' un corso allora la trascrivo
                    }
                 }
             }
@@ -220,7 +220,7 @@ public class UnitoBot extends TelegramLongPollingBot
                     newText = newText + line + "\n"; //copiandola
                     line=reader.readLine(); //Vado alla riga del corso da sostituire con una nuova
                     newText = newText + "course:" + data + ":\n";
-                    if(line!=null&&!(line.contains("course"))) //Se la prossima linea non è NULLA e NON CONTIENE COURSE
+                    if(line!=null&&!(line.contains("course"))) //Se la prossima linea non e' NULLA e NON CONTIENE COURSE
                     {
                         newText=newText+line+"\n"; //La copio
                     } //Altrimenti conteneva il course che non va piu' copiato
@@ -232,11 +232,11 @@ public class UnitoBot extends TelegramLongPollingBot
                     newText = newText + line + "\n";
                 }
         }
-        //Se non ho trovato neanche una CHAT corrispondente, vuol dire che non è mai stato inserito un dipartimento
+        //Se non ho trovato neanche una CHAT corrispondente, vuol dire che non e' mai stato inserito un dipartimento
         if (!find)
         {
             //Messaggio di Errore
-            SendMessage error = new SendMessage().setText("ERRORE DI SISTEMA : Prima di inserire un corso è necessario selezionare un dipartimento!").setChatId(currentchat.getId());
+            SendMessage error = new SendMessage().setText("ERRORE DI SISTEMA : Prima di inserire un corso e' necessario selezionare un dipartimento!").setChatId(currentchat.getId());
             execute(error);
         }
 
@@ -266,11 +266,11 @@ public class UnitoBot extends TelegramLongPollingBot
             SendMessage sendmessage = new SendMessage(); //Imposto il messaggio da mandare
             sendmessage.setChatId(update.getMessage().getChatId()); //Imposto il Chat ID
             if (Type.equals("dip"))
-                sendmessage.setText("Selezione il tuo Dipartimento, questo verrà salvato per questa chat. \nPer modificarlo basterà usare il comando /setdip una ulteriore volta."); //Message
+                sendmessage.setText("Selezione il tuo Dipartimento, questo verra' salvato per questa chat. \nPer modificarlo bastera' usare il comando /setdip una ulteriore volta."); //Message
             else if (Type.equals("course"))
-                sendmessage.setText("Selezione il tuo Corso di Laurea, questo verrà salvato per questa chat.\nPer modificarlo basterà usare il comando /setcourse una ulteriore volta.\n ATTENZIONE : Alcuni dipartimenti hanno piu corsi di laurea con lo stesso nome, provare ad utilizzare /find per trovare le proprie attività dopo aver selezionato il Corso."); //Message
+                sendmessage.setText("Selezione il tuo Corso di Laurea, questo verra' salvato per questa chat.\nPer modificarlo bastera' usare il comando /setcourse una ulteriore volta.\n ATTENZIONE : Alcuni dipartimenti hanno piu corsi di laurea con lo stesso nome, provare ad utilizzare /find per trovare le proprie attivita' dopo aver selezionato il Corso."); //Message
             else if (Type.equals("activity"))
-                sendmessage.setText("Selezione l'attività didattica di cui visualizzare i prossimi Appelli.\nSe non trovi la tua attività didattica puoi provare a cambiare il corso di Laurea!"); //Message
+                sendmessage.setText("Selezione l'attivita' didattica di cui visualizzare i prossimi Appelli.\nSe non trovi la tua attivita' didattica puoi provare a cambiare il corso di Laurea!"); //Message
             else
                 sendmessage.setText("ERROR: Called Function with an un-existing Type"); //Message
 
@@ -359,7 +359,7 @@ public class UnitoBot extends TelegramLongPollingBot
             if(dip==null)
             {
                 error.setChatId(ChatId);
-                error.setText("ERROR : Selezionare il Dipartimento prima dell'Attività!");
+                error.setText("ERROR : Selezionare il Dipartimento prima dell'Attivita'!");
                 execute(error);
             }
             else
@@ -368,7 +368,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 if(course==null)
                 {
                     error.setChatId(ChatId);
-                    error.setText("ERROR : Selezionare il Corso prima dell'Attività!");
+                    error.setText("ERROR : Selezionare il Corso prima dell'Attivita'!");
                     execute(error);
                 }
                 else
@@ -486,7 +486,7 @@ public class UnitoBot extends TelegramLongPollingBot
         return newLine;
     }
 
-    //Funzione per ottenere una lista di 2 elementi di cui il primo è il nome ed il secondo il value
+    //Funzione per ottenere una lista di 2 elementi di cui il primo e' il nome ed il secondo il value
     public List<String> ParseLine(String line)
     {
         List<String> newList = new ArrayList();
@@ -559,7 +559,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 if (j != 3)
                     singlerow.add(row.get(i).get(j));
             }
-            for(int j=0;j<singlerow.size();j++) // 0 = Attività Didattica ; 1 = Periodo Iscrizioni ; 2 = Data e Ora ; 3 = Docenti; 4 = Numero Iscrizioni
+            for(int j=0;j<singlerow.size();j++) // 0 = Attivita' Didattica ; 1 = Periodo Iscrizioni ; 2 = Data e Ora ; 3 = Docenti; 4 = Numero Iscrizioni
             {
                 if(j==3)
                 {
