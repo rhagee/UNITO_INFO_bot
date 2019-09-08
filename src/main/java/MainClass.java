@@ -1,8 +1,9 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+;
+
+import java.io.File;
 
 
 public class MainClass { //Test3
