@@ -69,7 +69,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 //Switch case del tipo di comando
                 if(command.equals("/start"))
                 {
-                    message.setText("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verro' implementato nel tempo sopratutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
+                    message.setText("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verro' implementato nel tempo soprattutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
                     message.setChatId(update.getMessage().getChatId());
                     execute(message);
                 }
@@ -97,8 +97,8 @@ public class UnitoBot extends TelegramLongPollingBot
                 }
                 else if("/help".equals(command))
                 {
-                    message.setText("Bene ti spieghero' velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI ri inserirlo ogni volta perche' lo terro' in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
-                            "\n /setcourse : Attraverso questo comando visualizzerai la lsita di tutti i corsi disponibili, una volta scelto uno, lo terro' in memoria, cosi' non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
+                    message.setText("Bene ti spieghero' velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI re-inserirlo ogni volta perche' lo terro' in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
+                            "\n /setcourse : Attraverso questo comando visualizzerai la lista di tutti i corsi disponibili, una volta scelto uno, lo terro' in memoria, cosi' non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
                             "\n /find : Attraverso questo comando potrai scegliere l'attivita' di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
                             "\n /alpha : Attraverso questo comando potrai inviare un messaggio agli sviluppatori, potrai scrivere riguardo un problema riscontrato, o dare consigli per lo sviluppo di una mia prossima versione!" +
                             "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verra' CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
@@ -110,6 +110,7 @@ public class UnitoBot extends TelegramLongPollingBot
                 {
                     BufferedReader reader = new BufferedReader(new FileReader("alpha.txt")); //Reader File Chat
                     BufferedWriter writer = new BufferedWriter(new FileWriter("newalpha.txt")); //Writer File Chat
+
                     String line=null;
                     String tobe="";
                     while((line=reader.readLine())!=null)
