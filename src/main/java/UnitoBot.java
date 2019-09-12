@@ -118,14 +118,13 @@ public class UnitoBot extends TelegramLongPollingBot {
         } else if (oldMessage.getText().equals("/alpha")) //Aggiornamento file ALPHA.txt
         {
             BufferedReader reader = new BufferedReader(new FileReader("alpha.txt")); //Reader File Chat
-            BufferedWriter writer = new BufferedWriter(new FileWriter("alpha.txt")); //Writer File Chat
-
             String line = null;
             String tobe = "";
             while ((line = reader.readLine()) != null) {
                 tobe = tobe + line + "\n";
             }
             tobe = tobe + update.getMessage().getFrom().getFirstName() + " ha detto : " + update.getMessage().getText();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("alpha.txt")); //Writer File Chat
             writer.write(tobe);
             reader.close();
             writer.close();
