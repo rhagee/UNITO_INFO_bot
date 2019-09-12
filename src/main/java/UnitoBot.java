@@ -52,7 +52,12 @@ public class UnitoBot extends TelegramLongPollingBot {
               "\n /find : Attraverso questo comando potrai scegliere l'attivita' di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
               "\n /alpha : Attraverso questo comando potrai inviare un messaggio agli sviluppatori, potrai scrivere riguardo un problema riscontrato, o dare consigli per lo sviluppo di una mia prossima versione!" +
               "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verra' CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
-              "\n\n\n SPERO ORA SIA TUTTO PIU CHIARO! Attendo un Comando!");
+              "\n\n\n La mia versione attuale e' la 0.0.5 \n Last Updates :" +
+              "\n-Fixed Multi-File Creation for Updating Informations about the User Departments/Course (Less Memory Required)" +
+              "\n-Optimized the Code Reading/Memory Request" +
+              "\n-Fixed a bug that was showing Wrong Exam Number in the 'find' function" +
+              "\n-Added text to Help to show the actual Update and the Updated Features" +
+              "\n\n\n SPERO DI ESSERTI STATO DI AIUTO! Attendo un Comando!");
       SendMessage msg = new SendMessage();
       msg.setParseMode("html");
       msg.setChatId(chatid);
