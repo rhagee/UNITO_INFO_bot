@@ -1,10 +1,11 @@
-import com.google.inject.internal.Messages;
+//IMPLEMENTANDO LA FUNZIONE PER SEND-MSG -> Finiscila
+
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.DeleteChatStickerSet;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.objects.Chat;
@@ -13,129 +14,122 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import java.io.*;
-import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UnitoBot extends TelegramLongPollingBot
-{
+public class UnitoBot extends TelegramLongPollingBot {
     Message oldMessage = new Message();
-
     //UPDATE
     public void onUpdateReceived(Update update) {
-        try
-        {
-            oldMessage=update.getMessage();
-            SendMessage message = new SendMessage(); //Messaggio a fine Update
-            if(update.hasCallbackQuery()) //When
+        try {
+            oldMessage = update.getMessage();
+            if (update.hasCallbackQuery()) //When
             {
-                //Raccolta dati dal Return
-                String data = update.getCallbackQuery().getData();
-                String type = update.getCallbackQuery().getMessage().getText();
-                Chat currentchat = update.getCallbackQuery().getMessage().getChat();
-
-                //Delete dei Tasti
-                Delete(update.getCallbackQuery().getMessage().getChatId(),update.getCallbackQuery().getMessage().getMessageId());
-
-                //Switch Case del tipo di Return Ottenuto
-                if(type.contains("Dipartimento"))
-                {
-                    StoreDip(currentchat,data);
-                    SendMessage dipmessage = new SendMessage();
-                    dipmessage.setText("Il tuo <b>Dipartimento</b> e' stato memorizzato correttamente, prosegui inserendo il tuo Corso di Laurea attraverso il comando <i>/setcourse</i> ! \n PS.Ricordati che puoi cambiare il dipartimento in ogni momento, riutilizzando il comando <i>/setdip</i>.");
-                    dipmessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
-                    dipmessage.setParseMode("html");
-                    execute(dipmessage);
-                }
-                else if(type.contains("Corso"))
-                {
-                    StoreCourse(currentchat,data);
-                    SendMessage courseMessage = new SendMessage();
-                    courseMessage.setText("Il tuo <b>Corso di Laurea</b> e' stato memorizzato correttamente, quando vorrai potrai utilizzare il comando <i>/find</i> per trovare la materia di cui vuoi conoscere i prossimi appelli! \n PS.Ricordati che puoi cambiare il corso di laurea in ogni momento, riutilizzando il comando <i>/setcourse</i>.");
-                    courseMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
-                    courseMessage.setParseMode("html");
-                    execute(courseMessage);
-                }
-                else if(type.contains("attivita'"))
-                {
-
-                    PrintTab(currentchat,data);
-                }
-            }
-            else //Nel caso in cui fosse un comando da Tastiera
+                CallBQ(update);
+            } else //Nel caso in cui fosse un comando da Tastiera
             {
-
-                String command = update.getMessage().getText();
-                //Switch case del tipo di comando
-                if(command.equals("/start"))
-                {
-                    message.setText("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verro' implementato nel tempo soprattutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
-                    message.setChatId(update.getMessage().getChatId());
-                    execute(message);
-                }
-                if ("/setdip".equals(command)) //Register
-                {
-                    Chat currentchat = update.getMessage().getChat();
-                    printKeyboard(update,"dip");
-                }
-                else if ("/setcourse".equals(command)) //Informazioni
-                {
-                    Chat currentchat = update.getMessage().getChat();
-                    printKeyboard(update,"course"); //Printing Keyboard
-                }
-                else if ("/find".equals(command))//Help
-                {
-                    Chat currentchat = update.getMessage().getChat();
-                    printKeyboard(update,"activity"); //Printing Keyboard
-                }
-                else if(command.equals("/alpha")) //Chiamata per aggiornamento file ALPHA.txt
-                {
-                    oldMessage = update.getMessage();
-                    message.setText("Grazie per aver utilizzato la funzione ALPHA, perfavore scrivi il messaggio che vorresti venisse letto dagli Sviluppatori, se opportuno provvederanno ad aggiornarmi secondo le tue esigenze!");
-                    message.setChatId(update.getMessage().getChatId());
-                    execute(message);
-                }
-                else if("/help".equals(command))
-                {
-                    message.setText("Bene ti spieghero' velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI re-inserirlo ogni volta perche' lo terro' in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
-                            "\n /setcourse : Attraverso questo comando visualizzerai la lista di tutti i corsi disponibili, una volta scelto uno, lo terro' in memoria, cosi' non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
-                            "\n /find : Attraverso questo comando potrai scegliere l'attivita' di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
-                            "\n /alpha : Attraverso questo comando potrai inviare un messaggio agli sviluppatori, potrai scrivere riguardo un problema riscontrato, o dare consigli per lo sviluppo di una mia prossima versione!" +
-                            "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verra' CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
-                            "\n\n\n SPERO ORA SIA TUTTO PIU CHIARO! Attendo un Comando!");
-                    message.setChatId(update.getMessage().getChatId());
-                    execute(message);
-                }
-                else if(oldMessage.getText().equals("/alpha")) //Aggiornamento file ALPHA.txt
-                {
-                    BufferedReader reader = new BufferedReader(new FileReader("alpha.txt")); //Reader File Chat
-                    BufferedWriter writer = new BufferedWriter(new FileWriter("newalpha.txt")); //Writer File Chat
-
-                    String line=null;
-                    String tobe="";
-                    while((line=reader.readLine())!=null)
-                    {
-                    tobe=tobe+line+"\n";
-                    }
-                    tobe=tobe+update.getMessage().getFrom().getFirstName()+" ha detto : "+update.getMessage().getText();
-                    writer.write(tobe);
-                    reader.close();
-                    writer.close();
-                    File f1 = new File("alpha.txt");
-                    f1.delete();
-                    File f2 = new File("newalpha.txt");
-                    f2.renameTo(new File("alpha.txt"));
-                    message.setText("Grazie per aver contribuito al mio miglioramento!\nOra puoi continuare ad utilizzare i comandi, gli sviluppatori leggeranno il primo possibile il tuo consiglio!");
-                    message.setChatId(update.getMessage().getChatId());
-                    execute(message);
-                }
-                oldMessage=update.getMessage();
+                Commands(update);
+                oldMessage = update.getMessage();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
     //UPDATE
+    //0 = startText
+    //1 = DepCallBackQuery->Start
+    //2 = CorsoCallBackQuery->Start
+    //3 = AlphaFunction->Call
+    //4 = AlphaFunction->END
+    //5 = Help->Call
+    public void PrintMessage(int type,Long chatid) throws Exception
+    {
+      List<String> possible = new ArrayList();
+      possible.add("Ciao, sono il BOT per la visualizzazione degli Appelli UNITO. Sono in versione ALPHA, verro' implementato nel tempo soprattutto in base alle richieste dell'utenza. Puoi iniziare impostando il Dipartimento di questa chat! Usa il comando /setdip. \nInoltre potrai dare consigli , o fare richieste agli sviluppatori tramite il comando /alpha \n\n Se non mi hai mai utilizzato prima , posso spiegarti il mio funzionamento tramite il comando /help.");
+      possible.add("Il tuo <b>Dipartimento</b> e' stato memorizzato correttamente, prosegui inserendo il tuo Corso di Laurea attraverso il comando <i>/setcourse</i> ! \n PS.Ricordati che puoi cambiare il dipartimento in ogni momento, riutilizzando il comando <i>/setdip</i>.");
+      possible.add("Il tuo <b>Corso di Laurea</b> e' stato memorizzato correttamente, quando vorrai potrai utilizzare il comando <i>/find</i> per trovare la materia di cui vuoi conoscere i prossimi appelli! \n PS.Ricordati che puoi cambiare il corso di laurea in ogni momento, riutilizzando il comando <i>/setcourse</i>.");
+      possible.add("Grazie per aver utilizzato la funzione ALPHA, perfavore scrivi il messaggio che vorresti venisse letto dagli Sviluppatori, se opportuno provvederanno ad aggiornarmi secondo le tue esigenze!");
+      possible.add("Grazie per aver contribuito al mio miglioramento!\nOra puoi continuare ad utilizzare i comandi, gli sviluppatori leggeranno il primo possibile il tuo consiglio!");
+      possible.add("Bene ti spieghero' velocemente il mio funzionamento : \n /setdip : Attraverso questo comando potrai farmi memorizzare il tuo Dipartimento, NON DOVRAI re-inserirlo ogni volta perche' lo terro' in memoria! Se vuoi modificarlo, puoi riutilizzare lo stesso comando, e selezionare un nuovo dipartimento " +
+              "\n /setcourse : Attraverso questo comando visualizzerai la lista di tutti i corsi disponibili, una volta scelto uno, lo terro' in memoria, cosi' non dovrai riselezionarlo ogni volta. Per cambiare il corso , potrai usare di nuovo il comando. " +
+              "\n /find : Attraverso questo comando potrai scegliere l'attivita' di cui vuoi trovare gli appelli, li visualizzerai non appena scelta. Ti saranno mostrati TUTTI gli appelli di cui UNITO fornisce informazioni" +
+              "\n /alpha : Attraverso questo comando potrai inviare un messaggio agli sviluppatori, potrai scrivere riguardo un problema riscontrato, o dare consigli per lo sviluppo di una mia prossima versione!" +
+              "\n PS. Se selezionerai il tuo dipartimento ed il tuo corso, e andrai a modificare il Dipartimento , anche il corso verra' CANCELLATO , quindi dovrai settare un nuovo corso del dipartimento scelto!" +
+              "\n\n\n SPERO ORA SIA TUTTO PIU CHIARO! Attendo un Comando!");
+      SendMessage msg = new SendMessage();
+      msg.setParseMode("html");
+      msg.setChatId(chatid);
+      msg.setText(possible.get(type));
+      execute(msg);
+    }
+
+
+    public void CallBQ(Update update) throws Exception
+    {
+        //Raccolta dati dal Return
+        String data = update.getCallbackQuery().getData();
+        String type = update.getCallbackQuery().getMessage().getText();
+        Chat currentchat = update.getCallbackQuery().getMessage().getChat();
+        //Delete dei Tasti
+        Delete(update.getCallbackQuery().getMessage().getChatId(), update.getCallbackQuery().getMessage().getMessageId());
+
+        //Switch Case del tipo di Return Ottenuto
+        if (type.contains("Dipartimento")) {
+            StoreDip(currentchat, data);
+            SendMessage dipmessage = new SendMessage();
+            PrintMessage(1,update.getCallbackQuery().getMessage().getChatId());
+        } else if (type.contains("Corso")) {
+            StoreCourse(currentchat, data);
+            SendMessage courseMessage = new SendMessage();
+            PrintMessage(2,update.getCallbackQuery().getMessage().getChatId());
+        } else if (type.contains("attivita'")) {
+
+            PrintTab(currentchat, data);
+        }
+    }
+
+    public void Commands(Update update) throws Exception
+    {
+        String command = update.getMessage().getText();
+        //Switch case del tipo di comando
+        if (command.equals("/start")) {
+            PrintMessage(0,update.getMessage().getChatId());
+        }
+        if ("/setdip".equals(command)) //Register
+        {
+            Chat currentchat = update.getMessage().getChat();
+            printKeyboard(update, "dip");
+        } else if ("/setcourse".equals(command)) //Informazioni
+        {
+            Chat currentchat = update.getMessage().getChat();
+            printKeyboard(update, "course"); //Printing Keyboard
+        } else if ("/find".equals(command))//Help
+        {
+            Chat currentchat = update.getMessage().getChat();
+            printKeyboard(update, "activity"); //Printing Keyboard
+        } else if (command.equals("/alpha")) //Chiamata per aggiornamento file ALPHA.txt
+        {
+            oldMessage = update.getMessage();
+            PrintMessage(3,update.getMessage().getChatId());
+        } else if ("/help".equals(command)) {
+            PrintMessage(5,update.getMessage().getChatId());
+        } else if (oldMessage.getText().equals("/alpha")) //Aggiornamento file ALPHA.txt
+        {
+            BufferedReader reader = new BufferedReader(new FileReader("alpha.txt")); //Reader File Chat
+            BufferedWriter writer = new BufferedWriter(new FileWriter("alpha.txt")); //Writer File Chat
+
+            String line = null;
+            String tobe = "";
+            while ((line = reader.readLine()) != null) {
+                tobe = tobe + line + "\n";
+            }
+            tobe = tobe + update.getMessage().getFrom().getFirstName() + " ha detto : " + update.getMessage().getText();
+            writer.write(tobe);
+            reader.close();
+            writer.close();
+            PrintMessage(4,update.getMessage().getChatId());
+        }
+    }
 
     //DELETE MESSAGE
     public void Delete(Long chatid, Integer messageid) throws Exception
@@ -152,7 +146,7 @@ public class UnitoBot extends TelegramLongPollingBot
     {
         //Reader e Writer
         BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new FileWriter("newChat.txt")); //Writer File Chat
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
 
         //String e boolean di appoggio
         String line = null;
@@ -192,10 +186,6 @@ public class UnitoBot extends TelegramLongPollingBot
         writer.write(newText);
         reader.close();
         writer.close();
-        File f1 = new File("Chat.txt");
-        f1.delete();
-        File f2 = new File("newChat.txt");
-        f2.renameTo(new File("Chat.txt"));
     }
 
 
@@ -203,7 +193,7 @@ public class UnitoBot extends TelegramLongPollingBot
     private void StoreCourse(Chat currentchat,String data) throws Exception {
         //Scrittura
         BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new FileWriter("newChat.txt")); //Writer File Chat
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
         //Variabili di appoggio
         String line = null;
         String newText = "";
@@ -245,10 +235,6 @@ public class UnitoBot extends TelegramLongPollingBot
                 writer.write(newText);
                 reader.close();
                 writer.close();
-                File f1 = new File("Chat.txt");
-                f1.delete();
-                File f2 = new File("newChat.txt");
-                f2.renameTo(f1);
         }
 
 
@@ -526,7 +512,7 @@ public class UnitoBot extends TelegramLongPollingBot
         String course = null;
         BufferedReader reader = new BufferedReader(new FileReader("Chat.txt"));
         String line = null;
-        while ((line = reader.readLine()) != null) {
+        while ((line = reader.readLine()) != null) { //Getting DATAS from CHAT.TXT
             if (line.contains(Long.toString(currentchat.getId()))) {
                 line = reader.readLine();
                 String[] temp = line.split(":");
@@ -562,30 +548,29 @@ public class UnitoBot extends TelegramLongPollingBot
             }
             for(int j=0;j<singlerow.size();j++) // 0 = Attivita' Didattica ; 1 = Periodo Iscrizioni ; 2 = Data e Ora ; 3 = Docenti; 4 = Numero Iscrizioni
             {
-                if(j==3)
-                {
-                    msg = msg+"<b>Professori : </b><i>";
-                    Elements names = singlerow.get(j).children().get(0).children().get(0).children();
-                    for(int z=0;z<names.size();z++)
-                    {
-                        if (z != names.size() - 1)
-                            msg = msg + names.get(z).text() + ", ";
-                        else
-                            msg = msg + names.get(z).text();
-                    }
-                    msg=msg+"</i>\n\n ";
-                }
-                else
-                {
+
                     if(j==0)
                         msg = msg+"<i>"+singlerow.get(j).text() + "</i> \n\n";
                     else if(j==1)
                         msg = msg+"<b>Iscrizioni (dal-al) : </b><i>"+singlerow.get(j).text() + "</i> \n\n ";
                     else if(j==2)
                         msg = msg+"<b>Esame (giorno-ora) : </b><i>"+singlerow.get(j).text() + "</i> \n\n ";
+                    else if(j==3)
+                    {
+                        msg = msg + "<b>Professori : </b><i>";
+                        Elements names = singlerow.get(j).children().get(0).children().get(0).children();
+                        for (int z = 0; z < names.size(); z++)
+                        {
+                        if (z != names.size() - 1)
+                            msg = msg + names.get(z).text() + ", ";
+                        else
+                            msg = msg + names.get(z).text();
+                        }
+                        msg = msg + "</i>\n\n ";
+                     }
                     else
                         msg=msg+"<b>Numero Iscritti : </b><i>"+singlerow.get(j).text()+"</i>";
-                }
+
             }
             msg=msg+"\n _____________________________________ \n";
             singlerow.clear();
