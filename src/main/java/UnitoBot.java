@@ -148,7 +148,6 @@ public class UnitoBot extends TelegramLongPollingBot {
     {
         //Reader e Writer
         BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
 
         //String e boolean di appoggio
         String line = null;
@@ -185,6 +184,7 @@ public class UnitoBot extends TelegramLongPollingBot {
             newText=newText+"Dip:"+data+":\n";
         }
         //Copia e sostituzione file
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
         writer.write(newText);
         reader.close();
         writer.close();
@@ -195,7 +195,6 @@ public class UnitoBot extends TelegramLongPollingBot {
     private void StoreCourse(Chat currentchat,String data) throws Exception {
         //Scrittura
         BufferedReader reader = new BufferedReader(new FileReader("Chat.txt")); //Reader File Chat
-        BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
         //Variabili di appoggio
         String line = null;
         String newText = "";
@@ -203,6 +202,7 @@ public class UnitoBot extends TelegramLongPollingBot {
         //Ciclo tutto il File
         while ((line = reader.readLine()) != null)
         {
+            System.out.println(line);
             if (line.contains("Chat"))
             {
                 String[] chat = line.split(":");
@@ -234,6 +234,7 @@ public class UnitoBot extends TelegramLongPollingBot {
         }
 
             //Sostituzione File
+                BufferedWriter writer = new BufferedWriter(new FileWriter("Chat.txt")); //Writer File Chat
                 writer.write(newText);
                 reader.close();
                 writer.close();
@@ -542,7 +543,8 @@ public class UnitoBot extends TelegramLongPollingBot {
         List<Element>singlerow= new ArrayList();
         for (int i = 0; i < row.size(); i++)
         {
-            msg=msg+"Appello numero "+i+1+". \n\n";
+            int n=i+1;
+            msg=msg+"Appello numero "+n+". \n\n";
             for(int j=0;j<row.get(i).size();j++)
             {
                 if (j != 3)
