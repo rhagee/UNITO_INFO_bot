@@ -1,6 +1,3 @@
-//IMPLEMENTANDO LA FUNZIONE PER SEND-MSG -> Finiscila
-
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
